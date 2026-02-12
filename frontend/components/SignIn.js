@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { setCredentials } from "../reducers/user";
+import styles from "./styles/AuthForm.module.css";
 
 export default function SignIn({ onClose }) {
   const dispatch = useDispatch();
@@ -35,11 +36,13 @@ export default function SignIn({ onClose }) {
   return (
     <>
       <input
+        className={styles.input}
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
+        className={styles.input}
         placeholder="Password"
         type="password"
         value={password}
@@ -48,7 +51,13 @@ export default function SignIn({ onClose }) {
 
       {error && <p>{error}</p>}
 
-      <button onClick={handleSignIn}>Sign in</button>
+      <button
+        type="button"
+        className={styles.primaryBtn}
+        onClick={handleSignIn}
+      >
+        Sign in
+      </button>
     </>
   );
 }
