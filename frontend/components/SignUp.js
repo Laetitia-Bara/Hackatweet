@@ -15,11 +15,14 @@ export default function SignUp({ onClose }) {
   const handleSignUp = async () => {
     setError("");
 
-    const res = await fetch(`${process.env.BACKEND_URL}/users/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstname, username, password }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstname, username, password }),
+      },
+    );
 
     const data = await res.json();
 
@@ -50,7 +53,7 @@ export default function SignUp({ onClose }) {
       />
       {error && <p>{error}</p>}
 
-      <button onClick={handleSignup}>Sign up</button>
+      <button onClick={handleSignUp}>Sign up</button>
     </>
   );
 }
