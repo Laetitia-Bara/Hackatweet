@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { setCredentials } from "../reducers/user";
-import styles from "./styles/AuthForm.module.css";
+import styles from "../styles/AuthForm.module.css";
 
 export default function SignUp({ onClose }) {
   const dispatch = useDispatch();

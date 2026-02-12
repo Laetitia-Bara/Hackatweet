@@ -9,10 +9,28 @@ import LastTweet from "./LastTweet";
 import Tweet from "./Tweet";
 import Trends from "./Trends";
 
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { logout } from "../reducers/user";
+
 function Home() {
   const dispatch = useDispatch();
-  const firstname = "John";
-  const username = "JohnCena";
+  const router = useRouter();
+
+  const firstname = useSelector((state) => state.user.firstname);
+  const username = useSelector((state) => state.user.username);
+  const token = useSelector((state) => state.user.token);
+
+  // guard
+  useEffect(() => {
+    if (!token) router.replace("/");
+  }, [token, router]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.replace("/");
+  };
 
   // const token = useSelector((state) => state.user.token);
   // const username = useSelector((state) => state.user.firstname);
@@ -67,7 +85,9 @@ function Home() {
               </div>
             </div>
             <div className={styles.logout}>
-              <button className={styles.btnLogout}>Logout</button>
+              <button className={styles.btnLogout} onClick={handleLogout}>
+                Logout
+              </button>
             </div>
           </div>
         </div>
