@@ -6,9 +6,24 @@ import LastTweet from "./LastTweet";
 import Tweet from "./Tweet";
 import Trends from "./Trends";
 
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { logout } from "../reducers/user";
+
+const dispatch = useDispatch();
+const router = useRouter();
+
+const firstname = useSelector((state) => state.user.firstname);
+const username = useSelector((state) => state.user.username);
+
+const handleLogout = () => {
+  dispatch(logout());
+  router.replace("/");
+};
+
 function Home() {
-  const firstname = "John";
-  const username = "JohnCena";
+  //const firstname = "John";
+  //const username = "JohnCena";
 
   return (
     <>
@@ -40,7 +55,9 @@ function Home() {
               </div>
             </div>
             <div className={styles.logout}>
-              <button className={styles.btnLogout}>Logout</button>
+              <button className={styles.btnLogout} onClick={handleLogout}>
+                Logout
+              </button>
             </div>
           </div>
         </div>
