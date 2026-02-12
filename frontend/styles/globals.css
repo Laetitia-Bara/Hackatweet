@@ -8,3 +8,131 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  background: #0f1720;
+  color: #fff;
+}
+
+.leftSide {
+  width: 45%;
+  position: relative;
+  overflow: hidden;
+}
+
+.bgImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bigLogo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160px;
+  transform: translate(-50%, -50%);
+  opacity: 0.95;
+}
+
+.rightSide {
+  width: 55%;
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.topLogo {
+  width: 44px;
+  margin-bottom: 18px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 0.95;
+}
+
+.subtitle {
+  margin: 10px 0 14px 0;
+  font-size: 20px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.btnPrimary {
+  width: 260px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.small {
+  margin: 14px 0 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.btnGhost {
+  width: 260px;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 800;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #6cb6ff;
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modalCard {
+  width: 480px;
+  max-width: 95vw;
+  background: #0f1720;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 28px;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modalLogo {
+  width: 40px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+.modalTitle {
+  text-align: center;
+  margin: 0 0 14px 0;
+  font-weight: 800;
+  font-size: 18px;
+}
