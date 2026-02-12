@@ -3,16 +3,18 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import user from "./reducers/user";
+import tweet from "./reducers/tweet";
 // import tweets, hashtag, theme ...
 
 const persistConfig = {
   key: "hackatweet",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "tweet"],
 };
 
 const rootReducer = combineReducers({
   user,
+  tweet,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
