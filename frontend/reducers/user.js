@@ -6,7 +6,7 @@ const initialState = {
   firstname: null,
 };
 
-export const useSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
