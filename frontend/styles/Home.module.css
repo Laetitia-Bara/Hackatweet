@@ -1,22 +1,220 @@
+@font-face {
+  font-family: "Mont-Heavy";
+  src: url("/fonts/Mont-Heavy.otf");
+}
+
+@font-face {
+  font-family: "Mont-Regular";
+  src: url("/fonts/Mont-Regular.otf");
+}
+
 .main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-color: black;
+}
+
+/* ---------------------- LEFT */
+
+.left {
+  border: none;
+  border-right: 1px solid gray;
+  flex: 1;
+  min-width: 20%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px;
+}
+
+.logo {
+  border: none;
+  width: 100%;
+  height: 10%;
+  padding: 5px 30px;
+}
+
+.informations {
+  border: none;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 5px 30px;
+}
+
+.userInfos {
+  border: none;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 2px;
+}
+
+.profilePicture {
+  border: none;
+  width: 35%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userDetails {
+  border: none;
+  width: 65%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 2px;
+}
+
+.firstname {
+  border: none;
+  width: 100%;
+  height: 40%;
+  font-family: "Mont-Heavy";
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
-  min-height: 100vh;
-  padding: 4rem 0;
+}
+.username {
+  border: none;
+  width: 100%;
+  height: 40%;
+  font-family: "Mont-Regular";
+  color: rgb(162, 158, 158);
+  font-weight: 100;
+  font-size: 12px;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.title {
-  line-height: 1.15;
-  font-size: 4rem;
+.logout {
+  border: none;
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 2px;
+  align-items: center;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+.btnLogout {
+  border-radius: 10px;
+  width: 40%;
+  height: auto;
+  color: white;
+  font-family: "Mont-Heavy";
+  background-color: transparent;
+  border: 1px solid rgb(162, 158, 158);
+  font-size: 10px;
 }
 
-.title a:hover, .title a:focus, .title a:active {
-  text-decoration: underline;
+.btnLogout:hover {
+  background-color: grey;
+  border: 1px solid rgb(162, 158, 158);
+  cursor: pointer;
+}
+
+/* ------------------ CENTER */
+
+.center {
+  border: none;
+  border-right: 1px solid gray;
+  min-width: 50%;
+  flex: 1;
+  height: 100vh;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.home {
+  border: none;
+  width: 100%;
+  height: 5%;
+  padding: 5px 10px;
+  font-family: "Mont-Heavy";
+  color: white;
+  font-size: 25px;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.postTweet {
+  border: none;
+  border-bottom: gray 1px solid;
+  width: 100%;
+  height: 15%;
+  padding: 5px 10px;
+}
+
+.lastTweet {
+  border: none;
+  width: 100%;
+  height: 80%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  overflow: auto;
+}
+
+/* ------------- RIGHT */
+
+.right {
+  border: none;
+  min-width: 30%;
+  flex: 1;
+  height: 100vh;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.trendsTitle {
+  border: none;
+  width: 100%;
+  height: 5%;
+  padding: 5px 10px;
+  font-family: "Mont-Heavy";
+  color: white;
+  font-size: 25px;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.trendsContent {
+  border: none;
+  width: 100%;
+  height: 95%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  overflow: auto;
 }
