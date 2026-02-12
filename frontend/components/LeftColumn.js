@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import UserPanel from "./UserPanel";
-import styles from "./LeftColumn.module.css";
+import styles from "../styles/LeftColumn.module.css";
 
 export default function LeftColumn() {
   const router = useRouter();
