@@ -1,0 +1,102 @@
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { logout } from "../reducers/user";
+
+import styles from "../styles/Home.module.css";
+import Image from "next/image";
+import Head from "next/head";
+
+import LastTweet from "./LastTweet";
+import Trends from "./Trends";
+import PostTweet from "./PostTweet";
+
+function Home() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const firstname = useSelector((state) => state.user.firstname);
+  const username = useSelector((state) => state.user.username);
+  const token = useSelector((state) => state.user.token);
+
+  const [refreshKey, setRefreshKey] = useState(0);
+  const refreshAll = () => setRefreshKey((k) => k + 1);
+
+  useEffect(() => {
+    if (!token) router.replace("/");
+  }, [token, router]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.replace("/");
+  };
+
+  return (
+    <>
+      <Head>
+        <title>Hackatweet - Home</title>
+      </Head>
+
+      <main className={styles.main}>
+        <div className={styles.left}>
+          <div className={styles.logo}>
+            <Image src={"/logo.png"} alt="logo" width={60} height={60} />
+          </div>
+
+          <div className={styles.informations}>
+            <div className={styles.userInfos}>
+              <div className={styles.profilePicture}>
+                <Image
+                  src={"/userImage.png"}
+                  alt="userImage"
+                  width={80}
+                  height={80}
+                />
+              </div>
+
+              <div className={styles.userDetails}>
+                <div className={styles.firstname}>
+                  <p>{firstname || "Guest"}</p>
+                </div>
+                <div className={styles.username}>
+                  <p>@{username || "unknown"}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.logout}>
+              <button className={styles.btnLogout} onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.center}>
+          <div className={styles.home}>
+            <p>Home</p>
+          </div>
+
+          <div className={styles.postTweet}>
+            <PostTweet onTweetPosted={refreshAll} />
+          </div>
+
+          <div className={styles.lastTweet}>
+            <LastTweet refreshKey={refreshKey} />
+          </div>
+        </div>
+
+        <div className={styles.right}>
+          <div className={styles.trendsTitle}>
+            <p>Trends</p>
+          </div>
+          <div className={styles.trendsContent}>
+            <Trends refreshKey={refreshKey} />
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+export default Home;

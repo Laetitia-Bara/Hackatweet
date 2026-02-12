@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styles from "../styles/LastTweet.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,3 +31,30 @@ function LastTweet(props) {
 }
 
 export default LastTweet;
+=======
+import { useEffect, useState } from "react";
+
+export default function LastTweet({ refreshKey }) {
+  const [tweets, setTweets] = useState([]);
+
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const fetchTweets = async () => {
+    const res = await fetch(`${backendUrl}/tweets`);
+    const data = await res.json();
+    if (data.result) setTweets(data.tweets);
+  };
+
+  useEffect(() => {
+    fetchTweets();
+  }, [refreshKey]);
+
+  return (
+    <div>
+      {tweets.map((t) => (
+        <div key={t._id}>{t.content}</div>
+      ))}
+    </div>
+  );
+}
+>>>>>>> 3cf80f2ad8de23c3a456c36951426b371d6e9aa6
