@@ -1,14 +1,19 @@
-import '../styles/globals.css';
-import Head from 'next/head';
+import "../styles/globals.css";
+import Head from "next/head";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "../store";
 
 function App({ Component, pageProps }) {
   return (
-    <>
-      <Head>
-        <title>Next.js App</title>
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Head>
+          <title>HackaWTeet</title>
+        </Head>
+        <Component {...pageProps} />
+      </PersistGate>
+    </Provider>
   );
 }
 
