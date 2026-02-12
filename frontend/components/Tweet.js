@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function Tweet() {
+  const dispatch = useDispatch();
   const [tweetInput, setTweetInput] = useState("");
   const [tweetLength, setTweetLength] = useState(0);
 
@@ -32,8 +33,9 @@ function Tweet() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.result) {
-          // OU ajouter à mon état
+          // dispatch(addTweetToStore()); envoyer objet avec syntaxe ok avec props dans Home pour lastTweet
           setTweetInput("");
           setTweetLength(0);
         }

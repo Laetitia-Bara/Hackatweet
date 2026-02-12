@@ -177,6 +177,8 @@
   justify-content: flex-start;
   gap: 2px;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(114, 114, 114) rgb(181, 179, 179);
 }
 
 /* ------------- RIGHT */

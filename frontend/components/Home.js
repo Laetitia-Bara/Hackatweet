@@ -1,9 +1,9 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTweetToStore } from "../reducers/tweet";
+// import { useState, useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+import { addTweetToStore, emptyTweetInStore } from "../reducers/tweet";
 
 import LastTweet from "./LastTweet";
 import Tweet from "./Tweet";
@@ -21,6 +21,7 @@ function Home() {
   const firstname = useSelector((state) => state.user.firstname);
   const username = useSelector((state) => state.user.username);
   const token = useSelector((state) => state.user.token);
+  const tweets = useSelector((state) => state.tweet.value);
 
   // guard
   useEffect(() => {
@@ -31,10 +32,6 @@ function Home() {
     dispatch(logout());
     router.replace("/");
   };
-
-  // const token = useSelector((state) => state.user.token);
-  // const username = useSelector((state) => state.user.firstname);
-  // const firstname = useSelector((state) => state.user.username);
 
   const backendUrl = "http://localhost:3000";
 
@@ -47,13 +44,22 @@ function Home() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log(data.latestTweets);
+          dispatch(emptyTweetInStore());
           dispatch(addTweetToStore(data.latestTweets));
         }
       });
   }, []);
 
-  //creer le composant LastTweet et le maper autant de fois qu'il y a de tweet dans mon reucer twwet
+  const latestTweets = tweets.map((data, i) => (
+    <LastTweet
+      key={i}
+      firstname={data.authorFirstname}
+      username={data.authorUsername}
+      content={data.content}
+      createdAt={data.createdAt}
+      isLiked={data.isLiked}
+    />
+  ));
 
   return (
     <>
@@ -98,7 +104,7 @@ function Home() {
           <div className={styles.postTweet}>
             <Tweet />
           </div>
-          <div className={styles.lastTweet}></div>
+          <div className={styles.lastTweet}>{latestTweets}</div>
         </div>
         <div className={styles.right}>
           <div className={styles.trendsTitle}>

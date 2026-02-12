@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "Mont-Heavy";
+  src: url("/fonts/Mont-Heavy.otf");
+}
+
+@font-face {
+  font-family: "Mont-Regular";
+  src: url("/fonts/Mont-Regular.otf");
+}
+
 .main {
   border: none;
   width: 100%;
