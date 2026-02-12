@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../reducers/user";
-import styles from "./UserPanel.module.css";
+import styles from "../styles/UserPanel.module.css";
 
 export default function UserPanel() {
   const dispatch = useDispatch();
