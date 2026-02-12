@@ -1,54 +1,51 @@
-const express = require("express");
-const router = express.Router();
-
-const User = require("../models/users");
+var express = require("express");
+var router = express.Router();
 const Tweet = require("../models/tweets");
+const jwt = require("jsonwebtoken");
+const { authTokenJWT } = require("../modules/authTokenJWT");
 
-// helper hashtags
-function extractHashtags(text = "") {
-  const matches = text.match(/#\w+/g);
-  if (!matches) return [];
-  return [...new Set(matches.map((h) => h.slice(1).toLowerCase()))];
-}
-
-// POST /tweets  { token, content }
-router.post("/", async (req, res) => {
-  try {
-    const { token, content } = req.body;
-
-    if (!token || !content?.trim()) {
-      return res.json({ result: false, error: "Missing token or content" });
-    }
-
-    const user = await User.findOne({ token });
-    if (!user) return res.json({ result: false, error: "Invalid token" });
-
-    const hashtags = extractHashtags(content);
-
-    const newTweet = await Tweet.create({
-      content: content.slice(0, 280),
-      author: user._id,
-      likes: [],
-      hashtags,
-    });
-
-    res.json({ result: true, tweet: newTweet });
-  } catch (e) {
-    res.json({ result: false, error: "Server error" });
-  }
+// get tous les tweets version non sécurisée
+router.get("/tweetList", async (req, res) => {
+  let tweets = await Tweet.find();
+  res.json({ result: true, latestTweets: tweets });
 });
 
-// GET /tweets
-router.get("/", async (_req, res) => {
-  try {
-    const tweets = await Tweet.find()
-      .populate("author", "firstname username")
-      .sort({ createdAt: -1 });
+// get tous les tweets version sécurisée
+// router.get("/tweetList", authTokenJWT, (req, res) => {
+// actions à ajouter
+//   res.json({ result: true });
+// });
 
-    res.json({ result: true, tweets });
-  } catch (e) {
-    res.json({ result: false, error: "Server error" });
+// poster un tweet version sécurisée
+// router.post("/tweet", authTokenJWT, (req, res) => {
+//   let tweet = req.body.tweet;
+//   let firstname = req.body.firstname;
+//   let username = req.body.username;
+
+//   res.json({ result: true, firstname, username });
+// });
+
+// version non sécurisée
+router.post("/newTweet", async (req, res) => {
+  let tweet = req.body.tweet;
+  let firstname = req.body.firstname;
+  let username = req.body.username;
+
+  if (!tweet || !firstname || !username) {
+    res.json({ result: false, error: "Errors in inputs" });
   }
+
+  const newTweet = new Tweet({
+    authorFirstname: firstname,
+    authorUsername: username,
+    content: tweet,
+    createdAt: Date.now(),
+    isLiked: [],
+  });
+
+  const save = await newTweet.save();
+
+  res.json({ result: true });
 });
 
 module.exports = router;

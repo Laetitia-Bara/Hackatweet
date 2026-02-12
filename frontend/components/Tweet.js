@@ -7,6 +7,8 @@ function Tweet() {
   const [tweetLength, setTweetLength] = useState(0);
 
   const token = useSelector((state) => state.user.token);
+  const username = useSelector((state) => state.user.firstname);
+  const firstname = useSelector((state) => state.user.username);
 
   const handleTweetChange = (tweet) => {
     setTweetInput(tweet);
@@ -16,18 +18,22 @@ function Tweet() {
   const backendUrl = "http://localhost:3000";
 
   const handleTweetClick = (tweet) => {
-    fetch(`${backendUrl}/tweet`, {
+    fetch(`${backendUrl}/tweet/newTweet`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        token: token,
         tweet: tweetInput,
+        username: username,
+        firstname: firstname,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          // fetch route qui affiche tous les tweets
+          // OU ajouter à mon état
           setTweetInput("");
           setTweetLength(0);
         }

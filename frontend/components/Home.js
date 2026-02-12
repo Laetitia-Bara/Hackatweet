@@ -1,6 +1,9 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Head from "next/head";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTweetToStore } from "../reducers/tweet";
 
 import LastTweet from "./LastTweet";
 import Tweet from "./Tweet";
@@ -12,9 +15,6 @@ import { useRouter } from "next/router";
 import { logout } from "../reducers/user";
 
 function Home() {
-  //const firstname = "John";
-  //const username = "JohnCena";
-
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -31,6 +31,25 @@ function Home() {
     dispatch(logout());
     router.replace("/");
   };
+
+  const backendUrl = "http://localhost:3000";
+
+  useEffect(() => {
+    fetch(`${backendUrl}/tweet/tweetList`, {
+      headers: {
+        // Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          console.log(data.latestTweets);
+          dispatch(addTweetToStore(data.latestTweets));
+        }
+      });
+  }, []);
+
+  //creer le composant LastTweet et le maper autant de fois qu'il y a de tweet dans mon reucer twwet
 
   return (
     <>
