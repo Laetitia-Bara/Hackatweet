@@ -10,20 +10,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../reducers/user";
 
-const dispatch = useDispatch();
-const router = useRouter();
-
-const firstname = useSelector((state) => state.user.firstname);
-const username = useSelector((state) => state.user.username);
-
-const handleLogout = () => {
-  dispatch(logout());
-  router.replace("/");
-};
-
 function Home() {
   //const firstname = "John";
   //const username = "JohnCena";
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const firstname = useSelector((state) => state.user.firstname);
+  const username = useSelector((state) => state.user.username);
+  const token = useSelector((state) => state.user.token);
+
+  // guard
+  useEffect(() => {
+    if (!token) router.replace("/");
+  }, [token, router]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.replace("/");
+  };
 
   return (
     <>
