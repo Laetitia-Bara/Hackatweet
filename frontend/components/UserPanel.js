@@ -18,10 +18,7 @@ export default function UserPanel() {
     .map((w) => w[0].toUpperCase())
     .join("");
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/");
-  };
+  const handleLogout = () => dispatch(logout());
 
   return (
     <div className={styles.userPanel}>
