@@ -6,6 +6,7 @@ import LastTweet from "./LastTweet";
 import Tweet from "./Tweet";
 import Trends from "./Trends";
 
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../reducers/user";
