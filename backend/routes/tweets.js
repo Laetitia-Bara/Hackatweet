@@ -33,19 +33,19 @@ router.post("/newTweet", async (req, res) => {
 
   if (!tweet || !firstname || !username) {
     res.json({ result: false, error: "Errors in inputs" });
+  } else {
+    const newTweet = new Tweet({
+      authorFirstname: firstname,
+      authorUsername: username,
+      content: tweet,
+      createdAt: Date.now(),
+      isLiked: [],
+    });
+
+    const save = await newTweet.save();
+
+    res.json({ result: true });
   }
-
-  const newTweet = new Tweet({
-    authorFirstname: firstname,
-    authorUsername: username,
-    content: tweet,
-    createdAt: Date.now(),
-    isLiked: [],
-  });
-
-  const save = await newTweet.save();
-
-  res.json({ result: true });
 });
 
 module.exports = router;
