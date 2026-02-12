@@ -21,10 +21,9 @@ export default function LoginPage() {
       <div className="leftSide">
         <img
           className="bgImg"
-          src="/images/bg-twitterlike.jpg"
+          src="/images/bg-twitterlikebleu.jpg"
           alt="background"
         />
-        <img className="bigLogo" src="/images/bird.svg" alt="logo" />
       </div>
 
       <div className="rightSide">

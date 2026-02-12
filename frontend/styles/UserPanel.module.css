@@ -1,0 +1,45 @@
+.userPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.userRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #1da1f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #0f1720;
+}
+
+.name {
+    margin: 0;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.handle {
+    margin: 2px 0 0 0;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.logoutBtn {
+    width: fit-content;
+    border: 1px solid rgba(29, 161, 242, 0.7);
+    background: transparent;
+    color: #1da1f2;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+}

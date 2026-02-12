@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../reducers/user";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { logout } from "../reducers/user";
+import styles from "../styles/UserPanel.module.css";
 
 export default function UserPanel() {
   const dispatch = useDispatch();
@@ -9,17 +10,30 @@ export default function UserPanel() {
   const firstname = useSelector((state) => state.user.firstname);
   const username = useSelector((state) => state.user.username);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/");
-  };
+  const initials = (firstname || "U")
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+
+  const handleLogout = () => dispatch(logout());
 
   return (
-    <div>
-      <p>{firstname}</p>
-      <p>@{username}</p>
+    <div className={styles.userPanel}>
+      <div className={styles.userRow}>
+        <div className={styles.avatar}>{initials}</div>
 
-      <button onClick={handleLogout}>Logout</button>
+        <div className={styles.userText}>
+          <p className={styles.name}>{firstname || "Guest"}</p>
+          <p className={styles.handle}>@{username || "unknown"}</p>
+        </div>
+      </div>
+
+      <button className={styles.logoutBtn} onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 }

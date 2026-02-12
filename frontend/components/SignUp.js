@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { setCredentials } from "../reducers/user";
+import styles from "./styles/AuthForm.module.css";
 
 export default function SignUp({ onClose }) {
   const dispatch = useDispatch();
@@ -13,39 +14,56 @@ export default function SignUp({ onClose }) {
   const [error, setError] = useState("");
 
   const handleSignUp = async () => {
-    setError("");
+    console.log("✅ CLICK SIGNUP");
+    console.log("firstname/username/password:", firstname, username, password);
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`,
-      {
+    try {
+      setError("");
+
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`;
+      console.log("➡️ URL:", url);
+
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstname, username, password }),
-      },
-    );
+      });
 
-    const data = await res.json();
+      console.log("⬅️ STATUS:", res.status);
 
-    if (!data.result) return setError(data.error || "Signup failed");
+      const data = await res.json();
+      console.log("⬅️ DATA:", data);
 
-    dispatch(setCredentials({ token: data.token, user: data.user }));
-    onClose?.();
-    router.push("/home");
+      if (!data.result) {
+        setError(data.error || "Signup failed");
+        return;
+      }
+
+      dispatch(setCredentials({ token: data.token, user: data.user }));
+      onClose?.();
+      router.push("/home");
+    } catch (e) {
+      console.error("❌ SIGNUP ERROR:", e);
+      setError("Network/server error (see console)");
+    }
   };
 
   return (
     <>
       <input
+        className={styles.input}
         placeholder="Firstname"
         value={firstname}
         onChange={(e) => setFirstname(e.target.value)}
       />
       <input
+        className={styles.input}
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
+        className={styles.input}
         placeholder="Password"
         type="password"
         value={password}
@@ -53,7 +71,13 @@ export default function SignUp({ onClose }) {
       />
       {error && <p>{error}</p>}
 
-      <button onClick={handleSignUp}>Sign up</button>
+      <button
+        type="button"
+        className={styles.primaryBtn}
+        onClick={handleSignUp}
+      >
+        Sign up
+      </button>
     </>
   );
 }
