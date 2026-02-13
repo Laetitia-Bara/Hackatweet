@@ -48,4 +48,26 @@ router.post("/newTweet", async (req, res) => {
   }
 });
 
+// version non sécurisée
+router.post("/like", async (req, res) => {
+  let tweetId = req.body.tweetId;
+  let username = req.body.username;
+
+  if (!tweetId || !username) {
+    res.json({ result: false, error: "Errors in inputs" });
+  } else {
+    let search = await Tweet.findOne({ _id: tweetId });
+    let likedList = [];
+    search.isLiked.some((e) => e === username)
+      ? (likedList = search.isLiked.filter((e) => e !== username))
+      : (likedList = [...search.isLiked, username]);
+
+    let update = await Tweet.updateOne(
+      { _id: tweetId },
+      { isLiked: likedList },
+    );
+    res.json({ result: true });
+  }
+});
+
 module.exports = router;
