@@ -3,19 +3,21 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTweetToStore, emptyTweetInStore } from "../reducers/tweet";
 
-function Tweet() {
+function Tweet({ onTweetPosted }) {
   const dispatch = useDispatch();
   const [tweetInput, setTweetInput] = useState("");
   const [tweetLength, setTweetLength] = useState(0);
 
   const token = useSelector((state) => state.user.token);
-  const firstname = useSelector((state) => state.user.firstname);
   const username = useSelector((state) => state.user.username);
+  const firstname = useSelector((state) => state.user.firstname);
 
   const handleTweetChange = (tweet) => {
     setTweetInput(tweet);
     setTweetLength(tweet.length);
   };
+
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleTweetClick = (tweet) => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/newTweet`, {
@@ -43,6 +45,7 @@ function Tweet() {
           dispatch(addTweetToStore([tweetPackage]));
           setTweetInput("");
           setTweetLength(0);
+          onTweetPosted?.();
         }
       });
   };

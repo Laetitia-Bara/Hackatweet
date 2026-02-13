@@ -1,15 +1,13 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Head from "next/head";
-// import { useState, useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
 import { addTweetToStore, emptyTweetInStore } from "../reducers/tweet";
 
 import LastTweet from "./LastTweet";
 import Tweet from "./Tweet";
 import Trends from "./Trends";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../reducers/user";
@@ -23,6 +21,8 @@ function Home() {
   const token = useSelector((state) => state.user.token);
   const tweets = useSelector((state) => state.tweet.value);
   const trackLike = useSelector((state) => state.tweet.likeChange);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const refreshAll = () => setRefreshKey((k) => k + 1);
 
   // guard
   useEffect(() => {
@@ -122,7 +122,7 @@ function Home() {
             <p>Home</p>
           </div>
           <div className={styles.postTweet}>
-            <Tweet />
+            <Tweet onTweetPosted={refreshAll} />
           </div>
           <div className={styles.lastTweet}>{latestTweets}</div>
         </div>
@@ -130,7 +130,9 @@ function Home() {
           <div className={styles.trendsTitle}>
             <p>Trends</p>
           </div>
-          <div className={styles.trendsContent}></div>
+          <div className={styles.trendsContent}>
+            <Trends refreshKey={refreshKey} />
+          </div>
         </div>
       </main>
     </>
