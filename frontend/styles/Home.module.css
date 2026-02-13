@@ -133,6 +133,7 @@
 /* ------------------ CENTER */
 
 .center {
+  color: white;
   border: none;
   border-right: 1px solid gray;
   min-width: 50%;
