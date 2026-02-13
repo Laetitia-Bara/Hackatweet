@@ -16,7 +16,7 @@ function LastTweet(props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         tweetId: props.id,
@@ -27,6 +27,8 @@ function LastTweet(props) {
       .then((data) => {
         if (data.result) {
           dispatch(switchLikeChange());
+        } else {
+          console.log(data);
         }
       });
   };
@@ -36,7 +38,7 @@ function LastTweet(props) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         tweetId: props.id,
@@ -46,6 +48,8 @@ function LastTweet(props) {
       .then((data) => {
         if (data.result) {
           dispatch(switchTrashChange());
+        } else {
+          console.log(data);
         }
       });
   };

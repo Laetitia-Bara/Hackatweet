@@ -39,7 +39,7 @@ function Home() {
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/tweetList`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -47,6 +47,8 @@ function Home() {
         if (data.result) {
           dispatch(emptyTweetInStore());
           dispatch(addTweetToStore(data.latestTweets));
+        } else {
+          dispatch(emptyTweetInStore());
         }
       });
   }, [trackLike, trackTrash]);

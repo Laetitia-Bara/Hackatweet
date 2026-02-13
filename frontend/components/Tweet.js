@@ -26,7 +26,7 @@ function Tweet({ onTweetPosted }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         tweet: tweetInput,
@@ -37,14 +37,6 @@ function Tweet({ onTweetPosted }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          // const tweetPackage = {
-          //   authorFirstname: firstname,
-          //   authorUsername: username,
-          //   content: tweetInput,
-          //   createdAt: Date.now(),
-          //   isLiked: [],
-          // };
-          // dispatch(addTweetToStore([tweetPackage]));
           dispatch(switchLikeChange());
           setTweetInput("");
           setTweetLength(0);
