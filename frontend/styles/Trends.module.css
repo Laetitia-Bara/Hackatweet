@@ -1,0 +1,41 @@
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.row {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.row:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.tag {
+    font-weight: 700;
+}
+
+.count {
+    margin-top: 4px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.empty {
+    opacity: 0.7;
+    padding: 10px;
+}
+
+.error {
+    color: #ff6b6b;
+    padding: 10px;
+}

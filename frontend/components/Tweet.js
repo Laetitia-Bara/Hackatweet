@@ -2,21 +2,21 @@ import styles from "../styles/Tweet.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-function Tweet() {
+function Tweet({ onTweetPosted }) {
   const dispatch = useDispatch();
   const [tweetInput, setTweetInput] = useState("");
   const [tweetLength, setTweetLength] = useState(0);
 
   const token = useSelector((state) => state.user.token);
-  const username = useSelector((state) => state.user.firstname);
-  const firstname = useSelector((state) => state.user.username);
+  const username = useSelector((state) => state.user.username);
+  const firstname = useSelector((state) => state.user.firstname);
 
   const handleTweetChange = (tweet) => {
     setTweetInput(tweet);
     setTweetLength(tweet.length);
   };
 
-  const backendUrl = "http://localhost:3000";
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleTweetClick = (tweet) => {
     fetch(`${backendUrl}/tweet/newTweet`, {
@@ -38,6 +38,7 @@ function Tweet() {
           // dispatch(addTweetToStore()); envoyer objet avec syntaxe ok avec props dans Home pour lastTweet
           setTweetInput("");
           setTweetLength(0);
+          onTweetPosted?.();
         }
       });
   };
