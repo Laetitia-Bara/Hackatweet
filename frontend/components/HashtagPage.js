@@ -107,7 +107,7 @@ export default function HashtagPage() {
         ) : tweets.length === 0 ? (
           <p style={{ opacity: 0.8 }}>No tweets found with #{tag}</p>
         ) : (
-          <div>
+          <div style={{ color: "white" }}>
             {tweets.map((tw) => (
               <div
                 key={tw._id}
@@ -115,9 +115,14 @@ export default function HashtagPage() {
               >
                 <div style={{ fontWeight: 700 }}>
                   {tw.authorFirstname}{" "}
-                  <span style={{ opacity: 0.7 }}>@{tw.authorUsername}</span>
+                  <span style={{ opacity: 0.7, marginLeft: 6 }}>
+                    @{tw.authorUsername}
+                  </span>
                 </div>
                 <div style={{ marginTop: 6 }}>{tw.content}</div>
+                <div style={{ opacity: 0.6, fontSize: 12, marginTop: 6 }}>
+                  {new Date(tw.createdAt).toLocaleString()}
+                </div>
               </div>
             ))}
           </div>
