@@ -20,6 +20,8 @@ const tweetSchema = mongoose.Schema({
   },
 
   isLiked: [String],
+
+  hashtags: [String],
 });
 
 const Tweet = mongoose.model("tweets", tweetSchema);
