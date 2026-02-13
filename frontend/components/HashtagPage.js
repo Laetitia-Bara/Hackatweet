@@ -22,16 +22,18 @@ export default function HashtagPage() {
 
   // guard
   useEffect(() => {
-    if (token === null) return; // redux persist peut mettre un tick
+    if (!router.isReady) return;
     if (!token) router.replace("/");
-  }, [token, router]);
+  }, [token, router.isReady]);
 
   const fetchTweetsByHashtag = async (t) => {
     if (!t) return;
 
     try {
       setError("");
-      const res = await fetch(`${backendUrl}/tweet/byHashtag/${t}`);
+      const clean = (t || "").trim().replace(/^#/, "").toLowerCase();
+      if (!clean) return;
+      const res = await fetch(`${backendUrl}/tweet/byHashtag/${clean}`);
       const data = await res.json();
 
       if (!data.result) {
@@ -48,9 +50,10 @@ export default function HashtagPage() {
 
   useEffect(() => {
     if (!tag) return;
-    setSearch(tag);
-    fetchTweetsByHashtag(tag);
-  }, [tag, refreshKey]);
+    const clean = String(tag).replace(/^#/, "").toLowerCase();
+    setSearch(clean);
+    fetchTweetsByHashtag(clean);
+  }, [tag]);
 
   const handleSearch = (e) => {
     e.preventDefault();
