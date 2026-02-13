@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { switchLikeChange } from "../reducers/tweet";
+import { faHeart, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { switchLikeChange, switchTrashChange } from "../reducers/tweet";
 
 function LastTweet(props) {
   const dispatch = useDispatch();
@@ -31,6 +31,25 @@ function LastTweet(props) {
       });
   };
 
+  const handleTrashClick = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/myTweet`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        tweetId: props.id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(switchTrashChange());
+        }
+      });
+  };
+
   const heart =
     props.likedByUser === false ? (
       <FontAwesomeIcon
@@ -45,6 +64,17 @@ function LastTweet(props) {
         style={{ color: "red" }}
         className={styles.like}
       />
+    );
+
+  const trash =
+    props.username === username ? (
+      <FontAwesomeIcon
+        icon={faTrash}
+        onClick={() => handleTrashClick()}
+        className={styles.trash}
+      />
+    ) : (
+      <></>
     );
 
   let time;
@@ -91,6 +121,7 @@ function LastTweet(props) {
       <div className={styles.icons}>
         {heart}
         <div>{props.isLiked.length}</div>
+        {trash}
       </div>
     </div>
   );

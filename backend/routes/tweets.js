@@ -78,6 +78,18 @@ router.post("/like", async (req, res) => {
   }
 });
 
+// version non sécurisée
+router.delete("/myTweet", async (req, res) => {
+  let tweetId = req.body.tweetId;
+
+  if (!tweetId) {
+    res.json({ result: false, error: "Errors in inputs" });
+  } else {
+    let deleteTweet = await Tweet.deleteOne({ _id: tweetId });
+    res.json({ result: true });
+  }
+});
+
 // GET /byHastag/:tag
 router.get("/byHashtag/:tag", async (req, res) => {
   try {

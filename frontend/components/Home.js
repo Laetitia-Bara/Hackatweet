@@ -21,6 +21,8 @@ function Home() {
   const token = useSelector((state) => state.user.token);
   const tweets = useSelector((state) => state.tweet.value);
   const trackLike = useSelector((state) => state.tweet.likeChange);
+  const trackTrash = useSelector((state) => state.tweet.trashChange);
+
   const [refreshKey, setRefreshKey] = useState(0);
   const refreshAll = () => setRefreshKey((k) => k + 1);
 
@@ -47,22 +49,7 @@ function Home() {
           dispatch(addTweetToStore(data.latestTweets));
         }
       });
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/tweetList`, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(emptyTweetInStore());
-          dispatch(addTweetToStore(data.latestTweets));
-        }
-      });
-  }, [trackLike]);
+  }, [trackLike, trackTrash]);
 
   const latestTweets = tweets
     .toReversed()
