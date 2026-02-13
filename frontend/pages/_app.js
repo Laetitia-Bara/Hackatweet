@@ -9,7 +9,7 @@ function App({ Component, pageProps }) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Head>
-          <title>HackaWTeet</title>
+          <title>HackaTweet</title>
         </Head>
         <Component {...pageProps} />
       </PersistGate>
