@@ -1,7 +1,11 @@
 import styles from "../styles/Tweet.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTweetToStore, emptyTweetInStore } from "../reducers/tweet";
+import {
+  addTweetToStore,
+  emptyTweetInStore,
+  switchLikeChange,
+} from "../reducers/tweet";
 
 function Tweet({ onTweetPosted }) {
   const dispatch = useDispatch();
@@ -16,8 +20,6 @@ function Tweet({ onTweetPosted }) {
     setTweetInput(tweet);
     setTweetLength(tweet.length);
   };
-
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleTweetClick = (tweet) => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/newTweet`, {
@@ -35,14 +37,15 @@ function Tweet({ onTweetPosted }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const tweetPackage = {
-            authorFirstname: firstname,
-            authorUsername: username,
-            content: tweetInput,
-            createdAt: Date.now(),
-            isLiked: [],
-          };
-          dispatch(addTweetToStore([tweetPackage]));
+          // const tweetPackage = {
+          //   authorFirstname: firstname,
+          //   authorUsername: username,
+          //   content: tweetInput,
+          //   createdAt: Date.now(),
+          //   isLiked: [],
+          // };
+          // dispatch(addTweetToStore([tweetPackage]));
+          dispatch(switchLikeChange());
           setTweetInput("");
           setTweetLength(0);
           onTweetPosted?.();

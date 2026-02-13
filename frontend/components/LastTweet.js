@@ -47,6 +47,30 @@ function LastTweet(props) {
       />
     );
 
+  let time;
+  let gapHours = Math.round(
+    (Date.now() - new Date(props.createdAt).getTime()) * 2.7778e-7,
+  );
+  let gapMinutes = Math.round(
+    (Date.now() - new Date(props.createdAt).getTime()) * 1.66668e-5,
+  );
+  let gapSeconds = Math.round(
+    (Date.now() - new Date(props.createdAt).getTime()) * 0.001000008,
+  );
+  let gapDays = Math.round(
+    (Date.now() - new Date(props.createdAt).getTime()) * 1.157416667e-8,
+  );
+
+  gapDays > 0
+    ? (time = gapDays + " day(s)")
+    : gapHours > 0
+      ? (time = gapHours + " hour(s)")
+      : gapMinutes > 0
+        ? (time = gapMinutes + " minute(s)")
+        : gapSeconds > 0
+          ? (time = gapSeconds + " second(s)")
+          : (time = "A few seconds ago");
+
   return (
     <div className={styles.main}>
       <div className={styles.tweetInfos}>
@@ -58,7 +82,7 @@ function LastTweet(props) {
           <p>@{props.username}</p>
         </div>
         <div className={styles.time}>
-          <p>{props.createdAt}</p>
+          <p>{time}</p>
         </div>
       </div>
       <div className={styles.content}>
