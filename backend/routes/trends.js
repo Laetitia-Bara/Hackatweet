@@ -4,18 +4,22 @@ const router = express.Router();
 const Tweet = require("../models/tweets");
 
 // GET /trends
-router.get("/", async (requestAnimationFrame, res) => {
+router.get("/", async (req, res) => {
   try {
-    const tweets = await Tweet.find({}, { content: 1 });
+    const tweets = await Tweet.find({}, { hashtags: 1, content: 1 });
     const counts = {};
 
     for (const t of tweets) {
-      const text = t.content || "";
-      const tags = text.match(/#\w+/g) || [];
+      const list =
+        t.hashtags && t.hashtags.length
+          ? t.hashtags
+          : (t.content?.match(/#\w+/g) || []).map((x) =>
+              x.slice(1).toLowerCase(),
+            );
 
-      for (const tag of tags) {
-        const clean = tag.slice(1).toLowerCase();
-        counts[clean] = (counts[clean] || 0) + 1;
+      for (const h of list) {
+        if (!h) continue;
+        counts[h] = (counts[h] || 0) + 1;
       }
     }
 
