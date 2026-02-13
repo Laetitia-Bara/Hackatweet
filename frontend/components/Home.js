@@ -34,8 +34,6 @@ function Home() {
     router.replace("/");
   };
 
-  console.log(tweets);
-
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/tweetList`, {
       headers: {
