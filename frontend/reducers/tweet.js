@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: [],
+  likeChange: false,
 };
 
 export const tweetSlice = createSlice({
@@ -14,8 +15,12 @@ export const tweetSlice = createSlice({
     emptyTweetInStore: (state, action) => {
       state.value = [];
     },
+    switchLikeChange: (state, action) => {
+      state.likeChange = !state.likeChange;
+    },
   },
 });
 
-export const { addTweetToStore, emptyTweetInStore } = tweetSlice.actions;
+export const { addTweetToStore, emptyTweetInStore, switchLikeChange } =
+  tweetSlice.actions;
 export default tweetSlice.reducer;

@@ -1,6 +1,7 @@
 import styles from "../styles/Tweet.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addTweetToStore, emptyTweetInStore } from "../reducers/tweet";
 
 function Tweet() {
   const dispatch = useDispatch();
@@ -8,18 +9,16 @@ function Tweet() {
   const [tweetLength, setTweetLength] = useState(0);
 
   const token = useSelector((state) => state.user.token);
-  const username = useSelector((state) => state.user.firstname);
-  const firstname = useSelector((state) => state.user.username);
+  const firstname = useSelector((state) => state.user.firstname);
+  const username = useSelector((state) => state.user.username);
 
   const handleTweetChange = (tweet) => {
     setTweetInput(tweet);
     setTweetLength(tweet.length);
   };
 
-  const backendUrl = "http://localhost:3000";
-
   const handleTweetClick = (tweet) => {
-    fetch(`${backendUrl}/tweet/newTweet`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/newTweet`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,9 +32,15 @@ function Tweet() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.result) {
-          // dispatch(addTweetToStore()); envoyer objet avec syntaxe ok avec props dans Home pour lastTweet
+          const tweetPackage = {
+            authorFirstname: firstname,
+            authorUsername: username,
+            content: tweetInput,
+            createdAt: Date.now(),
+            isLiked: [],
+          };
+          dispatch(addTweetToStore([tweetPackage]));
           setTweetInput("");
           setTweetLength(0);
         }
