@@ -221,3 +221,44 @@
   gap: 2px;
   overflow: auto;
 }
+
+.inputHashtag {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: 1px solid #2f3336;
+  background: transparent;
+  color: white;
+  outline: none;
+}
+
+.tweetCard {
+  padding: 14px 0;
+  border-top: 1px solid #2f3336;
+}
+
+.tweetHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.tweetAuthor {
+  font-weight: 700;
+}
+
+.tweetAuthor span {
+  font-weight: 400;
+  opacity: 0.7;
+  margin-left: 6px;
+}
+
+.tweetDate {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.tweetContent {
+  margin-top: 6px;
+}
