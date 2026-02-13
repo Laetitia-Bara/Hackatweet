@@ -22,16 +22,18 @@ export default function HashtagPage() {
 
   // guard
   useEffect(() => {
-    if (token === null) return; // redux persist peut mettre un tick
+    if (!router.isReady) return;
     if (!token) router.replace("/");
-  }, [token, router]);
+  }, [token, router.isReady]);
 
   const fetchTweetsByHashtag = async (t) => {
     if (!t) return;
 
     try {
       setError("");
-      const res = await fetch(`${backendUrl}/tweet/byHashtag/${t}`);
+      const clean = (t || "").trim().replace(/^#/, "").toLowerCase();
+      if (!clean) return;
+      const res = await fetch(`${backendUrl}/tweet/byHashtag/${clean}`);
       const data = await res.json();
 
       if (!data.result) {
@@ -48,9 +50,10 @@ export default function HashtagPage() {
 
   useEffect(() => {
     if (!tag) return;
-    setSearch(tag);
-    fetchTweetsByHashtag(tag);
-  }, [tag, refreshKey]);
+    const clean = String(tag).replace(/^#/, "").toLowerCase();
+    setSearch(clean);
+    fetchTweetsByHashtag(clean);
+  }, [tag]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -80,45 +83,40 @@ export default function HashtagPage() {
           <p>#{tag}</p>
         </div>
 
-        {/* search bar */}
-        <form onSubmit={handleSearch} style={{ padding: "10px 0" }}>
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search hashtag"
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: 20,
-              border: "1px solid #2f3336",
-              background: "transparent",
-              color: "white",
-              outline: "none",
-            }}
-          />
-        </form>
+        {/* Search bar zone (comme maquette) */}
+        <div className={styles.postTweet}>
+          <form onSubmit={handleSearch} style={{ width: "100%" }}>
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="#hashtag"
+              className={styles.inputHashtag}
+            />
+          </form>
+        </div>
 
-        {/* list */}
-        {error ? (
-          <p style={{ opacity: 0.8 }}>{error}</p>
-        ) : tweets.length === 0 ? (
-          <p style={{ opacity: 0.8 }}>No tweets found with #{tag}</p>
-        ) : (
-          <div>
-            {tweets.map((tw) => (
-              <div
-                key={tw._id}
-                style={{ borderTop: "1px solid #2f3336", padding: "12px 0" }}
-              >
-                <div style={{ fontWeight: 700 }}>
-                  {tw.authorFirstname}{" "}
-                  <span style={{ opacity: 0.7 }}>@{tw.authorUsername}</span>
+        {/* List zone */}
+        <div className={styles.lastTweet}>
+          {error ? (
+            <p style={{ opacity: 0.8 }}>{error}</p>
+          ) : tweets.length === 0 ? (
+            <p style={{ opacity: 0.8 }}>No tweets found with #{tag}</p>
+          ) : (
+            tweets.map((tw) => (
+              <div key={tw._id} className={styles.tweetCard}>
+                <div className={styles.tweetHeader}>
+                  <div className={styles.tweetAuthor}>
+                    {tw.authorFirstname} <span>@{tw.authorUsername}</span>
+                  </div>
+                  <div className={styles.tweetDate}>
+                    {new Date(tw.createdAt).toLocaleString()}
+                  </div>
                 </div>
-                <div style={{ marginTop: 6 }}>{tw.content}</div>
+                <div className={styles.tweetContent}>{tw.content}</div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
 
       {/* RIGHT */}

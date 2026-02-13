@@ -93,9 +93,16 @@ router.delete("/myTweet", async (req, res) => {
 // GET /byHastag/:tag
 router.get("/byHashtag/:tag", async (req, res) => {
   try {
-    const tag = (req.params.tag || "").toLowerCase();
+    const tag = (req.params.tag || "").replace(/^#/, "").toLowerCase();
 
-    const tweets = await Tweet.find({ hashtags: tag }).sort({ createdAt: -1 });
+    // 1) Match sur le champ hashtags (nouveaux tweets)
+    // 2) ou fallback sur le content (anciens tweets sans hashtags)
+    const tweets = await Tweet.find({
+      $or: [
+        { hashtags: tag },
+        { content: { $regex: new RegExp(`#${tag}\\b`, "i") } },
+      ],
+    }).sort({ createdAt: -1 });
 
     res.json({ result: true, tweets });
   } catch (e) {
