@@ -37,7 +37,7 @@ export default function Trends({ refreshKey = 0 }) {
       {trends.length === 0 && !error ? (
         <p className={styles.empty}>No trends yet</p>
       ) : (
-        trends.map((t) => {
+        trends.map((t) => (
           <button
             key={t.hashtag}
             className={styles.row}
@@ -48,8 +48,8 @@ export default function Trends({ refreshKey = 0 }) {
             <div className={styles.count}>
               {t.count} {t.count > 1 ? "Tweets" : "Tweet"}
             </div>
-          </button>;
-        })
+          </button>
+        ))
       )}
     </div>
   );
