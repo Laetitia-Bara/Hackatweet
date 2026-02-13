@@ -20,6 +20,7 @@ function Home() {
   const username = useSelector((state) => state.user.username);
   const token = useSelector((state) => state.user.token);
   const tweets = useSelector((state) => state.tweet.value);
+  const trackLike = useSelector((state) => state.tweet.likeChange);
   const [refreshKey, setRefreshKey] = useState(0);
   const refreshAll = () => setRefreshKey((k) => k + 1);
 
@@ -33,10 +34,10 @@ function Home() {
     router.replace("/");
   };
 
-  const backendUrl = "http://localhost:3000";
+  console.log(tweets);
 
   useEffect(() => {
-    fetch(`${backendUrl}/tweet/tweetList`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/tweetList`, {
       headers: {
         // Authorization: `Bearer ${token}`,
       },
@@ -50,16 +51,35 @@ function Home() {
       });
   }, []);
 
-  const latestTweets = tweets.map((data, i) => (
-    <LastTweet
-      key={i}
-      firstname={data.authorFirstname}
-      username={data.authorUsername}
-      content={data.content}
-      createdAt={data.createdAt}
-      isLiked={data.isLiked}
-    />
-  ));
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/tweetList`, {
+      headers: {
+        // Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(emptyTweetInStore());
+          dispatch(addTweetToStore(data.latestTweets));
+        }
+      });
+  }, [trackLike]);
+
+  const latestTweets = tweets
+    .toReversed()
+    .map((data, i) => (
+      <LastTweet
+        key={i}
+        id={data._id}
+        firstname={data.authorFirstname}
+        username={data.authorUsername}
+        content={data.content}
+        createdAt={data.createdAt}
+        isLiked={data.isLiked}
+        likedByUser={data.isLiked.some((e) => e === username)}
+      />
+    ));
 
   return (
     <>

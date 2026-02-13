@@ -1,6 +1,7 @@
 import styles from "../styles/Tweet.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addTweetToStore, emptyTweetInStore } from "../reducers/tweet";
 
 function Tweet({ onTweetPosted }) {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function Tweet({ onTweetPosted }) {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleTweetClick = (tweet) => {
-    fetch(`${backendUrl}/tweet/newTweet`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweet/newTweet`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,9 +34,15 @@ function Tweet({ onTweetPosted }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.result) {
-          // dispatch(addTweetToStore()); envoyer objet avec syntaxe ok avec props dans Home pour lastTweet
+          const tweetPackage = {
+            authorFirstname: firstname,
+            authorUsername: username,
+            content: tweetInput,
+            createdAt: Date.now(),
+            isLiked: [],
+          };
+          dispatch(addTweetToStore([tweetPackage]));
           setTweetInput("");
           setTweetLength(0);
           onTweetPosted?.();
