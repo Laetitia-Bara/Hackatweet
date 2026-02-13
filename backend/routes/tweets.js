@@ -10,29 +10,14 @@ function extractHashtags(text = "") {
   return [...new Set(matches.map((t) => t.slice(1).toLowerCase()))];
 }
 
-// get tous les tweets version non sécurisée
-router.get("/tweetList", async (req, res) => {
+// get tous les tweets version sécurisée
+router.get("/tweetList", authTokenJWT, async (req, res) => {
   let tweets = await Tweet.find();
   res.json({ result: true, latestTweets: tweets });
 });
 
-// get tous les tweets version sécurisée
-// router.get("/tweetList", authTokenJWT, (req, res) => {
-// actions à ajouter
-//   res.json({ result: true });
-// });
-
-// poster un tweet version sécurisée
-// router.post("/tweet", authTokenJWT, (req, res) => {
-//   let tweet = req.body.tweet;
-//   let firstname = req.body.firstname;
-//   let username = req.body.username;
-
-//   res.json({ result: true, firstname, username });
-// });
-
-// version non sécurisée
-router.post("/newTweet", async (req, res) => {
+// version  sécurisée
+router.post("/newTweet", authTokenJWT, async (req, res) => {
   let tweet = req.body.tweet;
   let firstname = req.body.firstname;
   let username = req.body.username;
@@ -56,8 +41,8 @@ router.post("/newTweet", async (req, res) => {
   }
 });
 
-// version non sécurisée
-router.post("/like", async (req, res) => {
+// version  sécurisée
+router.post("/like", authTokenJWT, async (req, res) => {
   let tweetId = req.body.tweetId;
   let username = req.body.username;
 
@@ -78,8 +63,8 @@ router.post("/like", async (req, res) => {
   }
 });
 
-// version non sécurisée
-router.delete("/myTweet", async (req, res) => {
+// version  sécurisée
+router.delete("/myTweet", authTokenJWT, async (req, res) => {
   let tweetId = req.body.tweetId;
 
   if (!tweetId) {
